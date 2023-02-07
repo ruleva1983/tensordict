@@ -13,13 +13,13 @@ import torch
 import torchsnapshot
 from _utils_internal import get_available_devices, prod, TestTensorDictsBase
 from tensordict import (
-    _TensorDictKeysView,
     detect_loop,
     LazyStackedTensorDict,
     MemmapTensor,
     TensorDict,
 )
 from tensordict.tensordict import (
+    _TensorDictKeysView,
     _stack as stack_td,
     assert_allclose_td,
     make_tensordict,
@@ -675,8 +675,8 @@ class TestTensorDicts(TestTensorDictsBase):
         mask = torch.zeros(td.shape, dtype=torch.bool, device=device).bernoulli_()
         new_td = td.masked_fill_(mask, -10.0)
         assert new_td is td
-        for item in td.values():
-            assert (item[mask] == -10).all(), item[mask]
+        assert (td[mask] == -10).all()
+
 
     def test_lock(self, td_name, device):
         td = getattr(self, td_name)(device)
