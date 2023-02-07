@@ -1593,7 +1593,11 @@ class TensorDictBase(Mapping, metaclass=abc.ABCMeta):
         dictionaries = [{} for _ in range(len(batch_sizes))]
         update = []
         for key in _TensorDictKeysView(
-            self, include_nested=True, error_on_loop=False, yield_autonested_keys=True
+            self,
+            include_nested=True,
+            leaves_only=False,
+            error_on_loop=False,
+            yield_autonested_keys=True,
         ):
             if isinstance(key, _NestedKey):
                 update.append(key)
